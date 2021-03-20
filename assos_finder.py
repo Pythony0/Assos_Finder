@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import tkinter as tk
-from tkinter import IntVar, scrolledtext, ttk
+from tkinter import IntVar, scrolledtext, ttk, StringVar
 import requests
+from sys import platform
+import webbrowser
 
 """
 RNA Croix Rouge: W9C1000188
@@ -15,6 +17,15 @@ liste_page = []
 
 
 # Définition des fonctions
+def champ_vide(*arg):
+    if input_text.get() == "":
+        bouton_chercher.config(state=tk.DISABLED)
+        input_text.unbind("<Return>")
+    else:
+        bouton_chercher.config(state=tk.NORMAL)
+        input_text.bind("<Return>", make_api)
+
+
 def radio_selected():
     pass
 
@@ -185,8 +196,21 @@ def suivant():
     afficher_nom()
 
 
-# Définition des variable utiles
-font = ("Quicksand", 14)
+def copier(*event):
+    root.clipboard_clear()
+    root.clipboard_append(input_text.selection_get())
+
+
+# Définition de la police suvant le system
+font = tuple()
+font_family = ""
+if platform == "linux" or platform == "linux2" or platform == "darwin":
+    font = ("Quicksand", 14)
+    font_family = "Quicksand"
+elif platform == "win32":
+    font = ("Cantarell", 14)
+    font_family = "Cantarell"
+
 
 # Définition de la fenetre principale
 root = tk.Tk(className="Assos Finder")
@@ -202,20 +226,21 @@ separator.pack(fill='x')
 output_frame.pack(padx=10, pady=10)
 
 # Définition des widgets de input_frame
+input_var = StringVar()
 label_chercher = tk.Label(input_frame, text="Chercher par:", font=font)
 choix = IntVar()
-radio_nom = tk.Radiobutton(input_frame, text="Nom", variable=choix, value=1, command=radio_selected, font=font,
-                           borderwidth=10)
-radio_rna = tk.Radiobutton(input_frame, text="RNA", variable=choix, value=2, command=radio_selected, font=font,
-                           borderwidth=10)
-radio_siret = tk.Radiobutton(input_frame, text="Siret", variable=choix, value=3, command=radio_selected, font=font,
-                             borderwidth=10)
-input_text = tk.Entry(input_frame, width=25, font=("Quicksand", 16), borderwidth=3)
+radio_nom = tk.Radiobutton(input_frame, text="Nom", variable=choix, value=1, command=radio_selected, font=font)
+radio_rna = tk.Radiobutton(input_frame, text="RNA", variable=choix, value=2, command=radio_selected, font=font)
+radio_siret = tk.Radiobutton(input_frame, text="Siret", variable=choix, value=3, command=radio_selected, font=font)
+input_text = tk.Entry(input_frame, width=25, font=(font_family, 16), borderwidth=3, justify="center",
+                      textvariable=input_var)
 bouton_chercher = tk.Button(input_frame, text="Chercher", command=lambda: make_api("event"), font=font, borderwidth=3)
-input_text.bind("<Return>", make_api)
-label_erreur = tk.Label(input_frame, text="", font=("Quicksand", 14), fg="red")
+label_erreur = tk.Label(input_frame, text="", font=(font_family, 14), fg="red")
+
 radio_nom.select()
 input_text.focus_set()
+input_var.trace_add("write", champ_vide)
+bouton_chercher.config(state=tk.DISABLED)
 
 # Placement des widgets de input_frame
 label_chercher.grid(row=0, column=0)
@@ -232,11 +257,18 @@ bouton_suivant = tk.Button(output_frame, text="Suivant", command=suivant, font=f
 label_assos = tk.Label(output_frame, font=font,  wraplength=400)
 label_resultat = tk.scrolledtext.ScrolledText(output_frame, font=font, width=50, height=20, wrap="word")
 
+root.bind("<Control-c>", copier)
+
+bouton_precedent.config(state=tk.DISABLED)
+bouton_suivant.config(state=tk.DISABLED)
+
 # Placement des widgets de output_frame
 bouton_precedent.grid(row=0, column=0, padx=10, pady=(0, 10), ipadx=50)
 bouton_suivant.grid(row=0, column=1, padx=10, pady=(0, 10), ipadx=60)
 label_resultat.grid(row=2, column=0, columnspan=2)
 label_assos.grid(row=1, column=0, columnspan=2)
+
+root.bind("<Control-f>", lambda i: webbrowser.open("https://duckduckgo.com/?q=" + root.selection_get()))
 
 # Main Loop
 root.mainloop()
