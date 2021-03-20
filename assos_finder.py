@@ -12,7 +12,7 @@ liste_page = []
 
 
 # Définition des fonctions
-def champ_vide(*arg):
+def champ_vide(*event):
     if input_text.get() == "":
         bouton_chercher.config(state=tk.DISABLED)
         input_text.unbind("<Return>")
