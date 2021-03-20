@@ -5,11 +5,6 @@ import requests
 from sys import platform
 import webbrowser
 
-"""
-RNA Croix Rouge: W9C1000188
-RNA ATASLACK: W062008198
-SIRET Secourisme: 48077929700013
-"""
 index = 0
 index_page = 0
 reponse = {}
@@ -115,27 +110,24 @@ def afficher_nom():
 def make_api(event):
     label_resultat.config(state=tk.NORMAL)
     label_resultat.delete("1.0", tk.END)
+    label_erreur.config(text="")
 
-    if len(input_text.get()) == 0:
-        label_erreur.config(text="Champ de recherche vide", fg="red")
-    else:
-        label_erreur.config(text="")
-        url = "https://entreprise.data.gouv.fr/api/rna/v1/"
+    url = "https://entreprise.data.gouv.fr/api/rna/v1/"
 
-        if choix.get() == 1:
-            url += "full_text/" + input_text.get()
-            get_data(url)
-            afficher_nom()
+    if choix.get() == 1:
+        url += "full_text/" + input_text.get()
+        get_data(url)
+        afficher_nom()
 
-        elif choix.get() == 2:
-            url += "id/" + input_text.get()
-            get_data(url)
-            afficher()
+    elif choix.get() == 2:
+        url += "id/" + input_text.get()
+        get_data(url)
+        afficher()
 
-        elif choix.get() == 3:
-            url += "siret/" + input_text.get()
-            get_data(url)
-            afficher()
+    elif choix.get() == 3:
+        url += "siret/" + input_text.get()
+        get_data(url)
+        afficher()
 
 
 def get_data(url):
@@ -198,7 +190,17 @@ def suivant():
 
 def copier(*event):
     root.clipboard_clear()
-    root.clipboard_append(input_text.selection_get())
+    try:
+        root.clipboard_append(input_text.selection_get())
+    except tk.TclError:
+        pass
+
+
+def open_web(*event):
+    try:
+        webbrowser.open("https://duckduckgo.com/?q=" + root.selection_get())
+    except tk.TclError:
+        pass
 
 
 # Définition de la police suvant le system
@@ -257,8 +259,6 @@ bouton_suivant = tk.Button(output_frame, text="Suivant", command=suivant, font=f
 label_assos = tk.Label(output_frame, font=font,  wraplength=400)
 label_resultat = tk.scrolledtext.ScrolledText(output_frame, font=font, width=50, height=20, wrap="word")
 
-root.bind("<Control-c>", copier)
-
 bouton_precedent.config(state=tk.DISABLED)
 bouton_suivant.config(state=tk.DISABLED)
 
@@ -268,7 +268,8 @@ bouton_suivant.grid(row=0, column=1, padx=10, pady=(0, 10), ipadx=60)
 label_resultat.grid(row=2, column=0, columnspan=2)
 label_assos.grid(row=1, column=0, columnspan=2)
 
-root.bind("<Control-f>", lambda i: webbrowser.open("https://duckduckgo.com/?q=" + root.selection_get()))
+root.bind("<Control-c>", copier)
+root.bind("<Control-f>", open_web)
 
 # Main Loop
 root.mainloop()
