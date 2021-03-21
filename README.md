@@ -1,13 +1,13 @@
-# Assos_Finder v1.01
+# Assos Finder v1.01
 ### Recherche d'associations Françaises
 
-- Permet de rechercher des associations Françaises par leurs noms, numérot de RNA ou numéro de Siret.
-- Nombre de résultats limités à 500 (trop long au delà).
+- Permet de rechercher des associations Françaises par leurs noms, numéro de RNA ou numéro de Siret.
+- Le nombre de résultats est limité à 500 (trop long au delà car 100 résultats sont renvoyés par page).
 - Ajout de la foctionnalitée <Ctrl + C> pour copier la séléction souris.
 - Ajout de la foctionnalitée <Ctrl + F> pour rechercher, dans le navigateur web, la séléction souris.
 ***
 # Installation des dépendances
-- <code>pip3 install -r requirements.txt</code> or <code>pip3 install requests</code>
+- <code>pip3 install -r requirements.txt</code> ou <code>pip3 install requests</code>
 - Liste des modules utilisés:
 ```python
 import tkinter as tk
