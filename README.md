@@ -1,4 +1,3 @@
-***
 # Assos_Finder v1.01
 ### Recherche d'associations Françaises
 
@@ -38,11 +37,11 @@ THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRI
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS 
 IN THE SOFTWARE.
----
+***
 # Note
+- ![logo_api](./logo_api.png)
 - Cette application utilise l'API ouverte : [https://api.gouv.fr/les-api/api_rna](https://api.gouv.fr/les-api/api_rna)
 - Documentation de l'API : [https://entreprise.data.gouv.fr/api_doc/rna](https://entreprise.data.gouv.fr/api_doc/rna)
-![logo_api](./logo_api.png)
 - ###### Cette application a été réalisée dans un but pédagogique
 
 
