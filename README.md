@@ -2,7 +2,7 @@
 ### Recherche d'associations Françaises
 
 - Permet de rechercher des associations Françaises par leurs noms, numéro de RNA ou numéro de Siret.
-- Le nombre de résultats est limité à 500 (trop long au delà car 100 résultats sont renvoyés par page).
+- Le nombre de résultats est limité à 500 (trop long au delà car 100 résultats sont renvoyés par l'API par page).
 - Ajout de la foctionnalitée <Ctrl + C> pour copier la séléction souris.
 - Ajout de la foctionnalitée <Ctrl + F> pour rechercher, dans le navigateur web, la séléction souris.
 ***
