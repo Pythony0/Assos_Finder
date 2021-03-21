@@ -22,7 +22,7 @@ def champ_vide(*event):
 
 
 def radio_selected():
-    pass
+    input_text.focus_set()
 
 
 def afficher():
@@ -63,12 +63,8 @@ def afficher_nom():
         label_resultat.delete("1.0", tk.END)
 
         if index_page == 0:
-            if not reponse["association"][index]["titre_court"]:
-                label_assos.config(text=reponse["association"][index]["titre"] + "\n" +
-                                   str(index + 1) + "/" + str(reponse["total_results"]), fg="green")
-            else:
-                label_assos.config(text=reponse["association"][index]["titre_court"] + "\n" +
-                                   str(index + 1) + "/" + str(reponse["total_results"]), fg="green")
+            label_assos.config(text=reponse["association"][index]["titre"] + "\n" +
+                               str(index + 1) + "/" + str(reponse["total_results"]), fg="green")
             label_erreur.config(text="Nombre de résultats: " + str(reponse["total_results"]), fg="green")
             text = ""
 
@@ -82,14 +78,8 @@ def afficher_nom():
             label_resultat.config(state=tk.DISABLED)
 
         else:
-            if not liste_page[index_page - 1]["association"][index]["titre_court"]:
-                label_assos.config(text=liste_page[index_page - 1]["association"][index]["titre"] + "\n" +
-                                   str(index_page * 100 + index + 1) + "/" +
-                                   str(reponse["total_results"]), fg="green")
-            else:
-                label_assos.config(text=liste_page[index_page - 1]["association"][index]["titre_court"] + "\n" +
-                                   str(index_page * 100 + index + 1) + "/" +
-                                   str(reponse["total_results"]), fg="green")
+            label_assos.config(text=liste_page[index_page - 1]["association"][index]["titre"] + "\n" +
+                               str(index_page * 100 + index + 1) + "/" + str(reponse["total_results"]), fg="green")
             label_erreur.config(text="Nombre de résultats: " + str(reponse["total_results"]),
                                 fg="green")
             text = ""
@@ -203,7 +193,7 @@ def open_web(*event):
         pass
 
 
-# Définition de la police suvant le system
+# Définition de la police suivant l'OS
 font = tuple()
 font_family = ""
 if platform == "linux" or platform == "linux2" or platform == "darwin":
@@ -256,11 +246,12 @@ label_erreur.grid(row=4, column=1, padx=(80, 0))
 # Définition des widgets de output_frame
 bouton_precedent = tk.Button(output_frame, text="Précédent", command=precedent, font=font, borderwidth=3)
 bouton_suivant = tk.Button(output_frame, text="Suivant", command=suivant, font=font, borderwidth=3)
-label_assos = tk.Label(output_frame, font=font,  wraplength=400)
+label_assos = tk.Label(output_frame, font=font,  wraplength=500)
 label_resultat = tk.scrolledtext.ScrolledText(output_frame, font=font, width=50, height=20, wrap="word")
 
 bouton_precedent.config(state=tk.DISABLED)
 bouton_suivant.config(state=tk.DISABLED)
+label_resultat.config(state=tk.DISABLED)
 
 # Placement des widgets de output_frame
 bouton_precedent.grid(row=0, column=0, padx=10, pady=(0, 10), ipadx=50)
