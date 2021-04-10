@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import IntVar, scrolledtext, ttk, StringVar
 import requests
 from sys import platform
-import webbrowser
 
 index = 0
 index_page = 0
@@ -13,6 +12,7 @@ liste_page = []
 
 # Définition des fonctions
 def champ_vide(*event):
+    print(event)
     if input_text.get() == "":
         bouton_chercher.config(state=tk.DISABLED)
         input_text.unbind("<Return>")
@@ -29,7 +29,7 @@ def afficher():
     try:
         label_assos.config(text=reponse["association"]["titre"], fg="green")
         label_erreur.config(text="Nombre de résultats: " + str(len(reponse.keys())), fg="green")
-        text = ""
+        text = str()
         for el in reponse.items():
             for element in el[1].items():
                 if element[1] is None:
@@ -66,7 +66,7 @@ def afficher_nom():
             label_assos.config(text=reponse["association"][index]["titre"] + "\n" +
                                str(index + 1) + "/" + str(reponse["total_results"]), fg="green")
             label_erreur.config(text="Nombre de résultats: " + str(reponse["total_results"]), fg="green")
-            text = ""
+            text = str()
 
             for element in reponse["association"][index].items():
                 if element[1] is None:
@@ -82,7 +82,7 @@ def afficher_nom():
                                str(index_page * 100 + index + 1) + "/" + str(reponse["total_results"]), fg="green")
             label_erreur.config(text="Nombre de résultats: " + str(reponse["total_results"]),
                                 fg="green")
-            text = ""
+            text = str()
 
             for element in liste_page[index_page - 1]["association"][index].items():
                 if element[1] is None:
@@ -98,6 +98,7 @@ def afficher_nom():
 
 
 def make_api(event):
+    print(event)
     label_resultat.config(state=tk.NORMAL)
     label_resultat.delete("1.0", tk.END)
     label_erreur.config(text="")
@@ -179,23 +180,17 @@ def suivant():
 
 
 def copier(*event):
+    print(event)
     root.clipboard_clear()
     try:
-        root.clipboard_append(input_text.selection_get())
-    except tk.TclError:
-        pass
-
-
-def open_web(*event):
-    try:
-        webbrowser.open("https://duckduckgo.com/?q=" + root.selection_get())
+        root.clipboard_append(root.selection_get())
     except tk.TclError:
         pass
 
 
 # Définition de la police suivant l'OS
 font = tuple()
-font_family = ""
+font_family = str()
 if platform == "linux" or platform == "linux2" or platform == "darwin":
     font = ("Quicksand", 14)
     font_family = "Quicksand"
@@ -260,7 +255,6 @@ label_resultat.grid(row=2, column=0, columnspan=2)
 label_assos.grid(row=1, column=0, columnspan=2)
 
 root.bind("<Control-c>", copier)
-root.bind("<Control-f>", open_web)
 
 # Main Loop
 root.mainloop()
